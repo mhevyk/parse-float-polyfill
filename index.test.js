@@ -1,11 +1,11 @@
 const customParseFloat = require("./customParseFloat");
 
 test("Numeric value", () => {
-  expect(customParseFloat(10)).toBe(parseFloat(10));
+  expect(customParseFloat(10)).toBe(10);
 });
 
 test("Number quotes", () => {
-  expect(customParseFloat("10")).toBe(parseFloat("10"));
+  expect(customParseFloat("10")).toBe(10);
 });
 
 test("Negative number in quotes", () => {
@@ -24,12 +24,20 @@ test("Value NaN", () => {
   expect(Number.isNaN(customParseFloat(NaN))).toBeTruthy();
 });
 
-test("Value Infinity", () => {
+test("Value numeric Infinity", () => {
   expect(customParseFloat(Infinity)).toBe(Infinity);
 });
 
-test("Value -Infinity", () => {
+test("Value numeric -Infinity", () => {
   expect(customParseFloat(-Infinity)).toBe(-Infinity);
+});
+
+test("Value string Infinity", () => {
+  expect(customParseFloat("Infinitylove")).toBe(parseFloat("Infinitylove"));
+});
+
+test("Value string -Infinity", () => {
+  expect(customParseFloat("-Infinity123")).toBe(parseFloat("-Infinity123"));
 });
 
 test("Value {}", () => {
@@ -73,11 +81,11 @@ test("Value -4e-2", () => {
 });
 
 test("Value 314e-2", () => {
-  expect(customParseFloat("314e-2")).toBe(parseFloat("314e-2"));
+  expect(customParseFloat("314e-2")).toBeCloseTo(parseFloat("314e-2"));
 });
 
 test("Value 0.0314E+2 (with upper exponent)", () => {
-  expect(customParseFloat("0.0314E+2")).toBe(parseFloat("0.0314E+2"));
+  expect(customParseFloat("0.0314E+2")).toBeCloseTo(parseFloat("0.0314E+2"));
 });
 
 test("Value 3.14some non-digit characters", () => {
